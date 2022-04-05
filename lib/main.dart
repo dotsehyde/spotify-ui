@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:spotify/data/data.dart';
+import 'package:spotify/screen/playlist_screen.dart';
 import 'package:spotify/widgets/widgets.dart';
 
 Future<void> main() async {
@@ -54,7 +56,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: SafeArea(child: const Wrapper()),
+      home: const SafeArea(child: Wrapper()),
     );
   }
 }
@@ -69,9 +71,13 @@ class Wrapper extends StatelessWidget {
         children: [
           Expanded(
             child: Row(
-              children: [
-                SideMenu()
-                //PlayList
+              children: const [
+                SideMenu(),
+                Expanded(
+                  child: PlaylistScreen(
+                    playlist: lofihiphopPlaylist,
+                  ),
+                )
               ],
             ),
           ),

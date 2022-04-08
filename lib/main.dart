@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:spotify/data/data.dart';
 import 'package:spotify/screen/playlist_screen.dart';
 import 'package:spotify/widgets/widgets.dart';
@@ -12,7 +13,7 @@ Future<void> main() async {
   if (!kIsWeb && (Platform.isLinux || Platform.isWindows || Platform.isMacOS)) {
     await DesktopWindow.setMinWindowSize(const Size(600, 800));
   }
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -71,9 +72,9 @@ class Wrapper extends StatelessWidget {
         children: [
           Expanded(
             child: Row(
-              children: const [
-                SideMenu(),
-                Expanded(
+              children: [
+                if (MediaQuery.of(context).size.width > 800) const SideMenu(),
+                const Expanded(
                   child: PlaylistScreen(
                     playlist: lofihiphopPlaylist,
                   ),
@@ -81,11 +82,7 @@ class Wrapper extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            width: double.infinity,
-            height: 84,
-            color: Colors.blue,
-          )
+          const BottomWidget()
         ],
       ),
     );

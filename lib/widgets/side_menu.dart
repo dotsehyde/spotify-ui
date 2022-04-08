@@ -105,7 +105,7 @@ class _LibraryPlaylist extends StatelessWidget {
                       onTap: () {},
                       dense: true,
                       title: Text(
-                        "$e",
+                        e,
                         style: Theme.of(context).textTheme.bodyText2,
                         overflow: TextOverflow.ellipsis,
                       ));
@@ -132,7 +132,7 @@ class _LibraryPlaylist extends StatelessWidget {
                       onTap: () {},
                       dense: true,
                       title: Text(
-                        "$e",
+                        e,
                         style: Theme.of(context).textTheme.bodyText2,
                         overflow: TextOverflow.ellipsis,
                       ));

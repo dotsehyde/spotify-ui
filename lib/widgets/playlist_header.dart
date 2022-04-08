@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:spotify/controller/current_track.dart';
 import 'package:spotify/data/data.dart';
 
-class PlaylistHeader extends StatelessWidget {
+class PlaylistHeader extends ConsumerWidget {
   final Playlist playlist;
   const PlaylistHeader({Key? key, required this.playlist}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final controller = ref.watch(currentTrackProvider);
     return Column(
       children: [
         Row(
@@ -25,7 +28,7 @@ class PlaylistHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'PLAYLIST',
+                  controller.selected != null ? 'NOW PLAYING' : 'PLAYLIST',
                   style: Theme.of(context)
                       .textTheme
                       .overline!
@@ -33,12 +36,12 @@ class PlaylistHeader extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  playlist.name,
+                  controller.selected?.title ?? playlist.name,
                   style: Theme.of(context).textTheme.headline2!,
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  playlist.description,
+                  controller.selected?.artist ?? playlist.description,
                   style: Theme.of(context).textTheme.subtitle1!,
                 ),
                 const SizedBox(height: 16),
@@ -57,12 +60,12 @@ class PlaylistHeader extends StatelessWidget {
   }
 }
 
-class _PlaylistButtons extends StatelessWidget {
+class _PlaylistButtons extends ConsumerWidget {
   final String followers;
   const _PlaylistButtons({Key? key, required this.followers}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Row(
       children: [
         TextButton(
@@ -77,7 +80,9 @@ class _PlaylistButtons extends StatelessWidget {
                     .textTheme
                     .caption!
                     .copyWith(letterSpacing: 2, fontSize: 12)),
-            onPressed: () {},
+            onPressed: () {
+              ref.read(currentTrackProvider).selectTrack(lofihiphopMusic[0]);
+            },
             child: const Text("PLAY")),
         const SizedBox(width: 8),
         IconButton(
